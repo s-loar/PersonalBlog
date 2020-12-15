@@ -1,3 +1,3 @@
 class Blog < ApplicationRecord
-  validates_presense_of :title, :body
+  validates_presence_of :title, :body
 end
