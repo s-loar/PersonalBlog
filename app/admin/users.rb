@@ -1,4 +1,14 @@
 ActiveAdmin.register User do
+  controller do
+    def destroy
+      @user = User.find_by_id(params[:id])
+      if @user != current_user
+        @user.discard
+        redirect_to admin_users_path
+      end
+    end
+  end
+
   permit_params :email, :password, :password_confirmation, :name, :superadmin
 
   index do

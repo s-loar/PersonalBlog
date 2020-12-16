@@ -1,4 +1,5 @@
 class Comment < ApplicationRecord
+  include Discard::Model
   validates_presence_of :content
 
   belongs_to :blog
