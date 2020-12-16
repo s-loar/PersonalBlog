@@ -1,6 +1,6 @@
 class BlogsController < ApplicationController
   before_action :set_blog, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_user!, except: [:index, :show]
+  before_action :authenticate_user!, except: [:index, :show, :get_comments]
 
   # GET /blogs
   # GET /blogs.json
@@ -60,6 +60,11 @@ class BlogsController < ApplicationController
       format.html { redirect_to blogs_url, notice: 'Blog was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def get_comments
+    comments = @blog.comments.select("comments.*, users.name").joins(:user).by_created_at
+    render json: { comments: comments }
   end
 
   private

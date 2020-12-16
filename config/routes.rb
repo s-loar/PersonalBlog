@@ -7,5 +7,10 @@ Rails.application.routes.draw do
       sign_out: "logout",
       sign_up: "register"
   }
-  resources :blogs
+  resources :blogs do
+    resources :comments, only: [:create]
+    member do
+      get :get_comments
+    end
+  end
 end
