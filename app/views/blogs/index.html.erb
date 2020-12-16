@@ -1,5 +1,7 @@
 <p id="notice"><%= notice %></p>
 
+<%= link_to 'Admin Panel',  admin_root_path, class: "adminlink", target: :_blank if current_user.superadmin? %>
+
 <h1>Blogs</h1>
 
 <table>
