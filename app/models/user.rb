@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  include Discard::Model
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -10,8 +11,18 @@ class User < ApplicationRecord
   validates :password, :password_confirmation, presence: true, on: :create
   validates :password, confirmation: true
 
-  has_many :blogs
-  has_many :comments
+  has_many :blogs, dependent: :destroy
+  has_many :comments, dependent: :destroy
+
+  after_discard do
+    blogs.discard_all
+    comments.discard_all
+  end
+
+  after_undiscard do
+    blogs.undiscard_all
+    comments.undiscard_all
+  end
 
   def first_name
     self.name.split.first
