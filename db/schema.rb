@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_16_205123) do
+ActiveRecord::Schema.define(version: 2020_12_17_155801) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -49,6 +49,8 @@ ActiveRecord::Schema.define(version: 2020_12_16_205123) do
     t.bigint "user_id", null: false
     t.string "slug"
     t.datetime "discarded_at"
+    t.bigint "deleted_by_id"
+    t.index ["deleted_by_id"], name: "index_blogs_on_deleted_by_id"
     t.index ["discarded_at"], name: "index_blogs_on_discarded_at"
     t.index ["slug"], name: "index_blogs_on_slug", unique: true
     t.index ["user_id"], name: "index_blogs_on_user_id"
@@ -61,7 +63,9 @@ ActiveRecord::Schema.define(version: 2020_12_16_205123) do
     t.bigint "blog_id", null: false
     t.bigint "user_id", null: false
     t.datetime "discarded_at"
+    t.bigint "deleted_by_id"
     t.index ["blog_id"], name: "index_comments_on_blog_id"
+    t.index ["deleted_by_id"], name: "index_comments_on_deleted_by_id"
     t.index ["discarded_at"], name: "index_comments_on_discarded_at"
     t.index ["user_id"], name: "index_comments_on_user_id"
   end
@@ -88,6 +92,8 @@ ActiveRecord::Schema.define(version: 2020_12_16_205123) do
     t.string "name"
     t.boolean "superadmin", default: false, null: false
     t.datetime "discarded_at"
+    t.bigint "deleted_by_id"
+    t.index ["deleted_by_id"], name: "index_users_on_deleted_by_id"
     t.index ["discarded_at"], name: "index_users_on_discarded_at"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
