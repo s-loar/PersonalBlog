@@ -13,6 +13,7 @@ class User < ApplicationRecord
 
   has_many :blogs, dependent: :destroy
   has_many :comments, dependent: :destroy
+  belongs_to :deleted_by, class_name: "User", optional: true
 
   after_discard do
     blogs.discard_all
@@ -20,8 +21,8 @@ class User < ApplicationRecord
   end
 
   after_undiscard do
-    blogs.undiscard_all
-    comments.undiscard_all
+    blogs.where(deleted_by: nil).undiscard_all
+    comments.where(deleted_by: nil).undiscard_all
   end
 
   def first_name
